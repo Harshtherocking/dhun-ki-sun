@@ -48,6 +48,5 @@ encoded_df = pd.DataFrame(encoded_data, columns=encoder.get_feature_names_out(['
 # Save the encoded data for training
 encoded_df.to_csv("encoded_music_data.csv", index=False)
 
-# Print sample
-print(encoded_df.head())
+#this code will one hot encode the data till the song folder level.
 
