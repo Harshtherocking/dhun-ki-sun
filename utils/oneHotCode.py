@@ -1,3 +1,6 @@
+#Technique used to convert categorical data to numerical format. Useful when preparing data for Machine learning and Deep learning.
+
+
 import os
 import pandas as pd
 from sklearn.preprocessing import OneHotEncoder
