@@ -45,7 +45,9 @@ class TRFDataset(Dataset):
         audio_path, raga_label = self.data[idx]
         
         # Load audio file
-        waveform, sample_rate = torchaudio.load(audio_path)
+        # if audio_path.endswith('.mp3', '.wav'):
+        #     waveform, sample_rate = torchaudio.load(audio_path, normalize=True )
+        waveform, sample_rate = torchaudio.load(audio_path, format="mp3")
 
         # Handle variable-length audio: Pad or Truncate
         num_channels, num_samples = waveform.shape
@@ -73,6 +75,7 @@ def plot_waveform(waveform, sample_idx=0):
 if __name__ == "__main__":
     # Define dataset path
     root_dir = r"C:\zzz\Solution_chall\Thaat and Raga Forest (TRF) Dataset Output"
+    root_dir =  r"C:\Users\harsh\OneDrive\Desktop\dhun-ki-sun\Thaat\poorvi\adana\0"
 
     # Create dataset instance
     trf_dataset = TRFDataset(root_dir, target_length=220500)  # Target: 5 sec @ 44.1kHz
