@@ -11,11 +11,13 @@ import librosa
 import librosa.display
 import matplotlib.pyplot as plt
 import numpy as np
+from scipy.signal import cwt, morlet
+import pywt
 import os
 import time
 
 # Specify the path to the downloaded file
-file_path = '/content/1.mp3'  # Replace with the actual file path
+file_path = '/content/0_084.mp3'  # Replace with the actual file path
 
 try:
     # Check if the file exists
@@ -80,6 +82,25 @@ spectra= librosa.feature.zero_crossing_rate(y=amp)
     plt.colorbar()
     plt.title("Chroma Feature")
     plt.show()
+    print("Spectrogram Shape (Frequency bins, Time frames):", D.shape)
+
+#Normalized spectogram values
+y, sr = librosa.load(file_path, sr=None, mono=True)
+
+# Compute Spectrogram
+D = np.abs(librosa.stft(y))
+
+# Normalize Spectrogram (0 to 1)
+D_norm = (D - np.min(D)) / (np.max(D) - np.min(D))
+
+# Display Normalized Spectrogram
+plt.figure(figsize=(12, 4))
+librosa.display.specshow(D_norm, sr=sr, x_axis='time', y_axis='log', cmap='viridis')
+plt.colorbar(label='Normalized Magnitude')
+plt.title('Normalized Spectrogram')
+plt.show()
+
+print("Spectrogram shape:", D_norm.shape)
 
 # MFCCs
     mfccs = librosa.feature.mfcc(y=amp, sr=sr, n_mfcc=13)
@@ -90,6 +111,24 @@ spectra= librosa.feature.zero_crossing_rate(y=amp)
     plt.colorbar()
     plt.title('MFCCs')
     plt.show()
+
+#Normalized spectogram values\
+y, sr = librosa.load(file_path, sr=None, mono=True)
+
+# Compute MFCC (13 coefficients by default)
+mfccs = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=13)
+
+# Normalize MFCC (0 to 1)
+mfccs_norm = (mfccs - np.min(mfccs)) / (np.max(mfccs) - np.min(mfccs))
+
+# Display Normalized MFCC
+plt.figure(figsize=(12, 4))
+librosa.display.specshow(mfccs_norm, sr=sr, x_axis='time', cmap='magma')
+plt.colorbar(label='Normalized Coefficients')
+plt.title('Normalized MFCC')
+plt.show()
+
+print("MFCC shape:", mfccs_norm.shape)
 
 frames = range(len(spectral_centroid))
 t = librosa.frames_to_time(frames, sr=sr)
@@ -129,3 +168,52 @@ plt.legend()
 plt.title("Waveform with Spectral Features")
 plt.show()
 
+y, sr = librosa.load(file_path, sr=None)
+
+# Generate a spectrogram
+D = np.abs(librosa.stft(y))
+
+# Use the mean frequency content across time
+spectrogram = np.mean(D, axis=1)
+
+# Define wavelet scales (adjust for better resolution)
+widths = np.arange(1, 128)
+
+# Apply Continuous Wavelet Transform (CWT) using Morlet wavelet
+cwt_result = cwt(spectrogram, morlet, widths)
+
+# Visualize the Scalogram
+plt.figure(figsize=(12, 8))
+plt.imshow(np.abs(cwt_result), extent=[0, len(y) / sr, 1, 128], cmap='viridis', aspect='auto')
+plt.colorbar(label="Magnitude")
+plt.title("Scalogram of the Audio")
+plt.xlabel("Time (s)")
+plt.ylabel("Scale")
+plt.show()
+
+y, sr = librosa.load(file_path, sr=None, mono=True)
+
+# Define wavelet scales and the wavelet type (using 'cmor' for continuous Morlet wavelet)
+widths = np.arange(1, 128)  # Number of scales
+wavelet = 'cmor1.5-1.0'     # Complex Morlet wavelet
+
+# Compute the scalogram using PyWavelets
+coeffs, _ = pywt.cwt(y, widths, wavelet, sampling_period=1/sr)
+
+# Get the magnitude of the coefficients
+scalogram = np.abs(coeffs)
+
+# Normalize the scalogram (0 to 1)
+scalogram_norm = (scalogram - np.min(scalogram)) / (np.max(scalogram) - np.min(scalogram))
+
+# Display the normalized scalogram
+plt.figure(figsize=(12, 8))
+plt.imshow(scalogram_norm, extent=[0, len(y) / sr, 1, 128], cmap='plasma', aspect='auto')
+plt.colorbar(label="Normalized Magnitude")
+plt.title("Normalized Scalogram (Mono Audio)")
+plt.xlabel("Time (s)")
+plt.ylabel("Scale")
+plt.show()
+
+# Print the shape of the scalogram
+print("Scalogram shape (Scales, Time frames):", scalogram_norm.shape)
