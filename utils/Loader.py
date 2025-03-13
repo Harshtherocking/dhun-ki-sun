@@ -47,7 +47,7 @@ class TRFDataset(Dataset):
         # Load audio file
         # if audio_path.endswith('.mp3', '.wav'):
         #     waveform, sample_rate = torchaudio.load(audio_path, normalize=True )
-        waveform, sample_rate = torchaudio.load(audio_path, format="mp3")
+        waveform, sample_rate = torchaudio.load(audio_path, format="mp3", normalize=True)
 
         # Handle variable-length audio: Pad or Truncate
         num_channels, num_samples = waveform.shape
