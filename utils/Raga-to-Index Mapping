@@ -1,66 +1,65 @@
-# Raga-to-Index Mapping
+# Sub-Thaat Index Table
 
-**(Note: These indices are assigned in the order of folder traversal.)**
-
-| Raga Name                  | Integer Index |
-|----------------------------|--------------|
-| Adana                      | 0            |
-| Asavari                    | 1            |
-| Darbari                    | 2            |
-| Desi                       | 3            |
-| jaunpuri                   | 4            |
-| Komal Bhairav              | 5            |
-| Nat Bhairav                | 6            |
-| Ramkali                    | 7            |
-| Ahir Bhairav               | 8            |
-| Basant Mukhari             | 9            |
-| Bhairav                    | 10           |
-| Bhairav Bahar              | 11           |
-| Bibhas                     | 12           |
-| Komal Risabh Asavari       | 13           |
-| Malkauns                   | 14           |
-| Bhairavi                   | 15           |
-| Bhupal Todi                | 16           |
-| Bilaskhani Todi            | 17           |
-| Alhaiya Bilaval            | 18           |
-| Bhinna Shadja              | 19           |
-| Bihag                      | 20           |
-| Bilaval                    | 21           |
-| Durga                      | 22           |
-| Hemant                     | 23           |
-| Pahadi                     | 24           |
-| Abhogi                     | 25           |
-| Bageshree                  | 26           |
-| Bahar                      | 27           |
-| Barwa                      | 28           |
-| Bhimpalasi                 | 29           |
-| Kafi                       | 30           |
-| Megh                       | 31           |
-| Megh Malhar                | 32           |
-| Sarang                     | 33           |
-| Bhoopali                   | 34           |
-| Hindol                     | 35           |
-| Kedara                     | 36           |
-| Suddha Kalyan              | 37           |
-| Yaman Kalyan               | 38           |
-| Kalyan                     | 39           |
-| Desh                       | 40           |
-| Jhinjhoti                  | 41           |
-| Khamaj                     | 42           |
-| Rageshree                  | 43           |
-| Sorath                     | 44           |
-| Bhatiyar                   | 45           |
-| Marva                      | 46           |
-| Purba                      | 47           |
-| Puriya                     | 48           |
-| Basant                     | 49           |
-| Deepak                     | 50           |
-| Gauri                      | 51           |
-| Lalit                      | 52           |
-| Poorvi                     | 53           |
-| Shree                      | 54           |
-| Gujari Todi                | 55           |
-| Madhuvanti                 | 56           |
-| Todi                       | 57           |
-| Multani                    | 58           |
-
+| Sub-Thaat                     | Index |
+|--------------------------------|-------|
+| Adana                         | 0     |
+| Asavari                       | 1     |
+| Darbari                       | 2     |
+| Desi                          | 3     |
+| Jaunpuri                      | 4     |
+| Ahir Bhairav                  | 5     |
+| Basant Mukhari                | 6     |
+| Bhairav                       | 7     |
+| Bhairav Bahar                 | 8     |
+| Bibhas                        | 9     |
+| Komal Bhairav                 | 10    |
+| Nat Bhairav                   | 11    |
+| Ramkali                       | 12    |
+| Bhairavi                      | 13    |
+| Bhupal Todi                   | 14    |
+| Bilaskhani Todi               | 15    |
+| Komal Rishabh Asavari         | 16    |
+| Malkauns                      | 17    |
+| Alhaiya Bilaval               | 18    |
+| Bhinna Shadja                 | 19    |
+| Bihag                         | 20    |
+| Bilaval                       | 21    |
+| Durga                         | 22    |
+| Hemant                        | 23    |
+| Pahadi                        | 24    |
+| Abhogi                        | 25    |
+| Bageshree                     | 26    |
+| Bahar                         | 27    |
+| Barwa                         | 28    |
+| Bhimpalasi                    | 29    |
+| Kafi                          | 30    |
+| Malhar                        | 31    |
+| Megh                          | 32    |
+| Megh Malhar                   | 33    |
+| Sarang                        | 34    |
+| Bhoopali                      | 35    |
+| Hindol                        | 36    |
+| Kedar                         | 37    |
+| Yaman Kalyan                  | 38    |
+| Yaman or Kalyan               | 39    |
+| Suddha Kalyan                 | 40    |
+| Desh                          | 41    |
+| Jhinjhoti                     | 42    |
+| Khamaj                        | 43    |
+| Rageshree                     | 44    |
+| Sorath                        | 45    |
+| Bhatiyar                      | 46    |
+| Marva                         | 47    |
+| Purba                         | 48    |
+| Puriya                        | 49    |
+| Sohni                         | 50    |
+| Basant                        | 51    |
+| Deepak                        | 52    |
+| Gauri                         | 53    |
+| Lalit                         | 54    |
+| Poorvi                        | 55    |
+| Shree                         | 56    |
+| Gujari Todi                   | 57    |
+| Madhuvanti                    | 58    |
+| Miyan Ki Todi / Todi / Darbari Todi | 59 |
+| Multani                       | 60    |
