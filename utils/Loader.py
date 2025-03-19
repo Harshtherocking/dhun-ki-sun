@@ -74,8 +74,8 @@ def plot_waveform(waveform, sample_idx=0):
 
 if __name__ == "__main__":
     # Define dataset path
-    root_dir = r"C:\zzz\Solution_chall\Thaat and Raga Forest (TRF) Dataset Output"
-    root_dir =  r"C:\Users\harsh\OneDrive\Desktop\dhun-ki-sun\Thaat\poorvi\adana\0"
+    root_dir = r"F:\GDG\Thaat and Raga Forest (TRF) Dataset Output"
+
 
     # Create dataset instance
     trf_dataset = TRFDataset(root_dir, target_length=220500)  # Target: 5 sec @ 44.1kHz
@@ -91,6 +91,8 @@ if __name__ == "__main__":
         # Plot the waveform of the first sample in the batch
         plot_waveform(x[0])
         plot_waveform(x[1])
+        for i in x[0]:
+            print(i)
 
         # X is the waveform and y is the raga label
         # X is the list of waveforms according to the batch size
