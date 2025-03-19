@@ -3,12 +3,10 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 class VAE(nn.Module):
-    def __init__(self, input_dim=220500, latent_dim=256):  # Increased latent dim
+    def __init__(self, input_dim=220500, latent_dim=128):  # Kept latent dim lower for CPU efficiency
         super(VAE, self).__init__()
         self.encoder = nn.Sequential(
-            nn.Linear(input_dim, 2048),  # Increased layer sizes
-            nn.ReLU(),
-            nn.Linear(2048, 1024),
+            nn.Linear(input_dim, 1024),  
             nn.ReLU(),
             nn.Linear(1024, 512),
             nn.ReLU(),
@@ -25,9 +23,7 @@ class VAE(nn.Module):
             nn.ReLU(),
             nn.Linear(512, 1024),
             nn.ReLU(),
-            nn.Linear(1024, 2048),
-            nn.ReLU(),
-            nn.Linear(2048, input_dim),
+            nn.Linear(1024, input_dim),
             nn.Tanh()
         )
 

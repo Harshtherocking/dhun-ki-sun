@@ -4,36 +4,37 @@ from torch.utils.data import DataLoader
 from New_Loader import TRFDataset
 from VAEmodel import VAE
 
+# Auto-detect device
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+if device.type == "cpu":
+    print("⚠️ Running on CPU - Expect slower training times.")
+
 # Load dataset
 root_dir = r"F:\GDG\Thaat and Raga Forest (TRF) Dataset Output"
 trf_dataset = TRFDataset(root_dir, target_length=220500)
-trf_loader = DataLoader(trf_dataset, batch_size=16, shuffle=True)  # Batch Size 16
+trf_loader = DataLoader(trf_dataset, batch_size=8, shuffle=True)  # CPU-friendly batch size
 
 # Initialize VAE model
-vae = VAE(input_dim=220500, latent_dim=256)  # Updated latent dim
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-vae.to(device)
-
-# Define optimizer and scheduler
-optimizer = optim.AdamW(vae.parameters(), lr=2e-4, weight_decay=0.01)  # AdamW Optimizer
+vae = VAE(input_dim=220500, latent_dim=128).to(device)  # Kept latent dim lower for CPU
+optimizer = optim.AdamW(vae.parameters(), lr=1e-4, weight_decay=0.01)
 scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=50, eta_min=1e-6)
 
 def loss_function(recon_x, x, mu, logvar):
     recon_loss = torch.nn.functional.mse_loss(recon_x, x, reduction="mean")
     kl_div = -0.5 * torch.mean(1 + logvar - mu.pow(2) - logvar.exp())
-    loss = recon_loss + (0.01 * kl_div)  # Increased KL weight
+    loss = recon_loss + (0.01 * kl_div)  
     
     # Convert loss to percentage
-    max_possible_loss = torch.mean(x**2)  # Normalizing factor
-    loss_percentage = (loss / (max_possible_loss + 1e-9)) * 100  # Avoid division by zero
+    max_possible_loss = torch.mean(x**2)  
+    loss_percentage = (loss / (max_possible_loss + 1e-9)) * 100  
     
-    return loss, loss_percentage.item()  # Return both loss & percentage
+    return loss, loss_percentage.item()
 
 # Training loop
-num_epochs = 300  # Increased for proper training
+num_epochs = 100  
+grad_accumulation_steps = 4  # Simulates larger batch sizes on CPU
 for epoch in range(num_epochs):
-    total_loss = 0
-    total_loss_percentage = 0  # Track percentage loss
+    total_loss_percentage = 0  
 
     for batch_idx, (song_id, clip_id, waveform) in enumerate(trf_loader):  
         waveform = waveform.to(device)
@@ -44,11 +45,12 @@ for epoch in range(num_epochs):
         loss, loss_percentage = loss_function(recon_waveform, waveform, mu, logvar)
         
         loss.backward()
-        optimizer.step()
-        scheduler.step()
 
-        total_loss += loss.item()
-        total_loss_percentage += loss_percentage  # Accumulate percentage loss
+        if (batch_idx + 1) % grad_accumulation_steps == 0 or batch_idx == len(trf_loader) - 1:
+            optimizer.step()
+            scheduler.step()
+
+        total_loss_percentage += loss_percentage  
 
         if batch_idx % 10 == 0:
             print(f"📌 Epoch [{epoch+1}/{num_epochs}], Batch [{batch_idx}/{len(trf_loader)}], Loss: {loss_percentage:.2f}%")

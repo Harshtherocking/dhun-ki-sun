@@ -30,7 +30,7 @@ class TRFDataset(Dataset):
                         for idx, audio_file in enumerate(sorted(os.listdir(song_path))):
                             if audio_file.endswith(('.wav', '.mp3')):
                                 audio_path = os.path.join(song_path, audio_file)
-                                self.data.append((song_id, idx, audio_path))  # Store with index
+                                self.data.append((song_id, idx, audio_path))  
                         song_id += 1  
 
     def __len__(self):
@@ -43,16 +43,16 @@ class TRFDataset(Dataset):
         waveform, sample_rate = torchaudio.load(audio_path, normalize=True)
         waveform = (waveform - waveform.mean()) / (waveform.std() + 1e-9)  # Standardize
 
-        # **Ensure Mono (Convert Stereo to Single Channel)**
-        if waveform.shape[0] > 1:  # If stereo
-            waveform = torch.mean(waveform, dim=0, keepdim=True)  # Convert to mono
+        # Ensure Mono (Convert Stereo to Single Channel)
+        if waveform.shape[0] > 1:  
+            waveform = torch.mean(waveform, dim=0, keepdim=True)  
 
-        # **Ensure Fixed Length (Pad or Truncate)**
+        # Ensure Fixed Length (Pad or Truncate)
         num_samples = waveform.shape[1]
         if num_samples < self.target_length:
             pad = self.target_length - num_samples
-            waveform = F.pad(waveform, (0, pad))  # Pad at the end
+            waveform = F.pad(waveform, (0, pad))  
         else:
-            waveform = waveform[:, :self.target_length]  # Truncate
+            waveform = waveform[:, :self.target_length]  
 
-        return song_id, clip_idx, waveform.squeeze(0)  # Remove extra channel dimension
+        return song_id, clip_idx, waveform.squeeze(0)  
